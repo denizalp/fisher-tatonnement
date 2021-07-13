@@ -3,19 +3,22 @@
 import tatonnement as t
 import numpy as np
 import matplotlib.pyplot as plt
+from mpl_toolkits.axes_grid1.inset_locator import mark_inset
+
 np.set_printoptions(precision=3)
 
 
 
 if __name__ == '__main__':
     # Declare number of goods, consumers and elasticity of substitution (rho)
-    num_goods = 5
-    num_buyers = 10
-    num_iters = 50
-    learning_rate = 2.9
-    num_experiments = 10000
-    obj_hist_avg = np.zeros(num_iters)    
+    num_goods = 30
+    num_buyers = 70
+    num_iters = 200
+    learning_rate = 2.7
+    num_experiments = 1
     
+    
+    obj_hist_avg = np.zeros(num_iters)    
     for experiment in range(num_experiments):
         print(f"Experiment {experiment}")
         budgets = np.random.rand(num_buyers) + 2
@@ -44,15 +47,25 @@ if __name__ == '__main__':
 
     x = np.linspace(1, len(obj_hist_avg) +1, len(obj_hist_avg) + 1)
     plt.plot(list(range(len(obj_hist_avg))), obj_hist_avg, color = "red")
-    plt.plot(x-1, (obj_hist_avg[0] - obj_hist_avg[-1])*(x**(-1)) + obj_hist_avg[-1], color='blue', linestyle='dashed', label = "1/t")
-    plt.plot(x-1, (obj_hist_avg[0] - obj_hist_avg[-1])*(x**(-2)) + obj_hist_avg[-1], color='green', linestyle='dashed', label = "1/t^2")
-    plt.plot(x-1, (obj_hist_avg[0] - obj_hist_avg[-1])*(x**(-3)) + obj_hist_avg[-1], color='orange', linestyle='dashed', label = "1/t^3")
+    plt.plot(x-1, (obj_hist_avg[0] - obj_hist_avg[-1])*(x**(-1)) + obj_hist_avg[-1], color='blue', linestyle='dashed', label = r"$1/t$")
+    plt.plot(x-1, (obj_hist_avg[0] - obj_hist_avg[-1])*(x**(-2)) + obj_hist_avg[-1], color='green', linestyle='dashed', label = r"$1/t^{2}$")
+    plt.plot(x-1, (obj_hist_avg[0] - obj_hist_avg[-1])*(x**(-3)) + obj_hist_avg[-1], color='orange', linestyle='dashed', label = r"$1/t^{3}$")
     plt.xlabel("Number of iterations")
     plt.yticks([], [])
     plt.ylabel("Objective Function Value")
     plt.legend()
+
+    plt.axes([0.2, 0.4, 0.5, 0.5])
+    plt.plot(list(range(len(obj_hist_avg))), obj_hist_avg, color = "red")
+    plt.plot((x-1), ((obj_hist_avg[0] - obj_hist_avg[-1])*(x**(-1)) + obj_hist_avg[-1]), color='blue', linestyle='dashed', label = r"$1/t$")
+    plt.plot((x-1), ((obj_hist_avg[0] - obj_hist_avg[-1])*(x**(-2)) + obj_hist_avg[-1]), color='green', linestyle='dashed', label = r"$1/t^{2}$")
+    plt.plot((x-1), ((obj_hist_avg[0] - obj_hist_avg[-1])*(x**(-3)) + obj_hist_avg[-1]), color='orange', linestyle='dashed', label = r"$1/t^{3}$")
+    plt.xlim(0.2, 10)
+    plt.xticks([])
+    plt.yticks([])
     plt.savefig("./graphs/obj_change.png")
     plt.show()
+    
 
     obj_hist_avg = np.zeros(num_iters)    
     num_not_conv = 0
@@ -88,10 +101,11 @@ if __name__ == '__main__':
 
     x = np.linspace(1, len(obj_hist_avg) +1, len(obj_hist_avg) + 1)
     plt.plot(list(range(len(obj_hist_avg))), obj_hist_avg, color = "red")
-    plt.plot(x-1, (obj_hist_avg[0] - obj_hist_avg[-1])*(x**(-1)) + obj_hist_avg[-1], color='blue', linestyle='dashed', label = "1/t")
-    plt.plot(x-1, (obj_hist_avg[0] - obj_hist_avg[-1])*(x**(-2)) + obj_hist_avg[-1], color='green', linestyle='dashed', label = "1/t^2")
-    plt.plot(x-1, (obj_hist_avg[0] - obj_hist_avg[-1])*(x**(-3)) + obj_hist_avg[-1], color='orange', linestyle='dashed', label = "1/t^3")
+    plt.plot(x-1, (obj_hist_avg[0] - obj_hist_avg[-1])*(x**(-1)) + obj_hist_avg[-1], color='blue', linestyle='dashed', label = r"$1/t$")
+    plt.plot(x-1, (obj_hist_avg[0] - obj_hist_avg[-1])*(x**(-2)) + obj_hist_avg[-1], color='green', linestyle='dashed', label = r"$1/t^{2}$")
+    plt.plot(x-1, (obj_hist_avg[0] - obj_hist_avg[-1])*(x**(-3)) + obj_hist_avg[-1], color='orange', linestyle='dashed', label = r"$1/t^{3}$")
     plt.xlabel("Number of iterations")
+    plt.xlim(left = 0)
     plt.yticks([], [])
     plt.ylabel("Objective Function Value")
     plt.legend()
